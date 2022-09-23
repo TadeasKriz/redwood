@@ -27,6 +27,7 @@ import kotlinx.serialization.json.Json
 
 class RealEmojiSearchPresenter(
   private val hostApi: HostApi,
+  private val json: Json,
 ) : EmojiSearchPresenter {
   private var imageIndex = listOf<EmojiImage>()
   private var latestSearchTerm = ""
@@ -45,7 +46,7 @@ class RealEmojiSearchPresenter(
       onEvent = events::tryEmit,
     )
     return treehouseUi.asZiplineTreehouseUi(
-      factory = DiffProducingEmojiSearchWidgetFactory(),
+      factory = DiffProducingEmojiSearchWidgetFactory(json),
       widgetVersion = 0U,
     )
   }
