@@ -17,7 +17,7 @@
 import UIKit
 import shared
 
-class ScrollableColumnBinding: NSObject, WidgetScrollableColumn {
+class LazyColumnBinding: NSObject, WidgetLazyColumn {
     private let root = UITableView()
     private var views: [UIView] = []
 
@@ -35,7 +35,7 @@ class ScrollableColumnBinding: NSObject, WidgetScrollableColumn {
     var value: Any { root }
 }
 
-extension ScrollableColumnBinding: UITableViewDataSource {
+extension LazyColumnBinding: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         views.count
     }

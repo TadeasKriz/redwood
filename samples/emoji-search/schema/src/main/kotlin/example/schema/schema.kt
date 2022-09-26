@@ -24,7 +24,7 @@ import app.cash.redwood.schema.Widget
   [
     Row::class,
     Column::class,
-    ScrollableColumn::class,
+    LazyColumn::class,
     TextInput::class,
     Text::class,
     Image::class,
@@ -43,7 +43,7 @@ data class Column(
 )
 
 @Widget(3)
-data class ScrollableColumn(
+data class LazyColumn(
   @Children(1) val children: () -> Unit,
 )
 

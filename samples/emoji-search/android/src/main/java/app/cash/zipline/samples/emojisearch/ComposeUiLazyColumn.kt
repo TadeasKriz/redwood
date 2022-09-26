@@ -24,9 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.cash.redwood.LayoutModifier
 import app.cash.redwood.widget.compose.ComposeWidgetChildren
-import example.schema.widget.ScrollableColumn
+import example.schema.widget.LazyColumn
 
-class ComposeUiScrollableColumn : ScrollableColumn<@Composable () -> Unit> {
+class ComposeUiLazyColumn : LazyColumn<@Composable () -> Unit> {
   override var layoutModifiers: LayoutModifier = LayoutModifier
 
   override val children = ComposeWidgetChildren()

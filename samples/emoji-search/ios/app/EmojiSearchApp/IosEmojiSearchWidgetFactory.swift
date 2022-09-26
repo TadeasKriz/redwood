@@ -28,8 +28,8 @@ class IosEmojiSearchWidgetFactory: WidgetEmojiSearchWidgetFactory {
     func Column() -> WidgetColumn {
         return ColumnBinding()
     }
-    func ScrollableColumn() -> WidgetScrollableColumn {
-        return ScrollableColumnBinding()
+    func LazyColumn() -> WidgetLazyColumn {
+        return LazyColumnBinding()
     }
     func TextInput() -> WidgetTextInput {
         return TextInputBinding()
