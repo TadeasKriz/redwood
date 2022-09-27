@@ -22,6 +22,13 @@ import app.cash.redwood.widget.Widget
 public class ComposeWidgetChildren : Widget.Children<@Composable () -> Unit> {
   private val children = mutableStateListOf<@Composable () -> Unit>()
 
+  public val size: Int get() = children.size
+
+  @Composable
+  public fun render(index: Int) {
+    children[index]()
+  }
+
   @Composable
   public fun render() {
     for (child in children) {

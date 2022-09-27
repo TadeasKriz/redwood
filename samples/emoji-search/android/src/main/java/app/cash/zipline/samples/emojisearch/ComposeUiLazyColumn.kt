@@ -15,10 +15,8 @@
  */
 package app.cash.zipline.samples.emojisearch
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,13 +30,14 @@ class ComposeUiLazyColumn : LazyColumn<@Composable () -> Unit> {
   override val children = ComposeWidgetChildren()
 
   override val value = @Composable {
-    Column(
+    LazyColumn(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
         .fillMaxWidth()
-        .verticalScroll(rememberScrollState())
     ) {
-      children.render()
+      items(children.size) { index ->
+        children.render(index)
+      }
     }
   }
 }
