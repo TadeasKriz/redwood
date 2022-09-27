@@ -13,6 +13,14 @@ kotlin {
   }
 
   jvm()
+
+  sourceSets {
+    commonMain {
+      dependencies {
+        api projects.samples.emojiSearch.values
+      }
+    }
+  }
 }
 
 redwoodSchema {
