@@ -17,32 +17,52 @@
 import UIKit
 import shared
 
-class LazyColumnBinding: NSObject, WidgetLazyColumn {
+class LazyColumnBinding<T : AnyObject>: NSObject, WidgetLazyColumn, UITableViewDataSource {
+    private let treehouseApp: Redwood_treehouseTreehouseApp<T>
     private let root = UITableView()
-    private var views: [UIView] = []
+    private var intervals: [ValuesLazyListIntervalContent] = []
 
-    override init() {
+    init(treehouseApp: Redwood_treehouseTreehouseApp<T>) {
+        self.treehouseApp = treehouseApp
         super.init()
         root.dataSource = self
     }
 
-    lazy var children: Redwood_widgetWidgetChildren = ChildrenBinding { [unowned self] views in
-        self.views = views
+    func intervals(intervals: [ValuesLazyListIntervalContent]) {
+        self.intervals = intervals
         root.reloadData()
     }
 
     var layoutModifiers: Redwood_runtimeLayoutModifier = ExposedKt.layoutModifier()
     var value: Any { root }
-}
 
-extension LazyColumnBinding: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return intervals.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        views.count
+        return Int(intervals[section].count)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = TableViewCell(view: views[indexPath.row])
+        let treehouseView = Redwood_treehouseTreehouseUIKitView(treehouseApp: treehouseApp)
+        treehouseView.setContent(content: CellContent(itemProvider: intervals[indexPath.section].itemProvider, index: indexPath.row))
+        let cell = TableViewCell(view: treehouseView.view)
         return cell
+    }
+}
+
+private class CellContent : Redwood_treehouseTreehouseViewContent {
+    private let itemProvider: ValuesLazyListIntervalContentItem
+    private let index: Int
+
+    init(itemProvider: ValuesLazyListIntervalContentItem, index: Int) {
+        self.itemProvider = itemProvider
+        self.index = index
+    }
+
+    func get(app: Any) -> Redwood_treehouseZiplineTreehouseUi {
+        return itemProvider.get(index_: Int32(index))
     }
 }
 

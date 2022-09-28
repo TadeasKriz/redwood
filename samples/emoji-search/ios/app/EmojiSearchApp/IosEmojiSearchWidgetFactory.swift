@@ -19,8 +19,13 @@ import Foundation
 import UIKit
 import shared
 
-class IosEmojiSearchWidgetFactory: WidgetEmojiSearchWidgetFactory {
+class IosEmojiSearchWidgetFactory<T : AnyObject>: WidgetEmojiSearchWidgetFactory {
+    let treehouseApp: Redwood_treehouseTreehouseApp<T>
     let imageLoader = RemoteImageLoader()
+
+    init(treehouseApp: Redwood_treehouseTreehouseApp<T>) {
+        self.treehouseApp = treehouseApp
+    }
 
     func Row() -> WidgetRow {
         return RowBinding()
@@ -29,7 +34,7 @@ class IosEmojiSearchWidgetFactory: WidgetEmojiSearchWidgetFactory {
         return ColumnBinding()
     }
     func LazyColumn() -> WidgetLazyColumn {
-        return LazyColumnBinding()
+        return LazyColumnBinding(treehouseApp: treehouseApp)
     }
     func TextInput() -> WidgetTextInput {
         return TextInputBinding()

@@ -19,6 +19,7 @@ import app.cash.redwood.schema.Children
 import app.cash.redwood.schema.Property
 import app.cash.redwood.schema.Schema
 import app.cash.redwood.schema.Widget
+import example.values.LazyListIntervalContent
 
 @Schema(
   [
@@ -44,7 +45,7 @@ data class Column(
 
 @Widget(3)
 data class LazyColumn(
-  @Children(1) val children: () -> Unit,
+  @Property(1) val intervals: List<LazyListIntervalContent>,
 )
 
 @Widget(4)

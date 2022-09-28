@@ -40,13 +40,15 @@ class RealEmojiSearchPresenter(
 
   override fun launch(): ZiplineTreehouseUi {
     val events = MutableSharedFlow<EmojiSearchEvent>(extraBufferCapacity = Int.MAX_VALUE)
+    val factory = DiffProducingEmojiSearchWidgetFactory(json)
     val treehouseUi = EmojiSearchTreehouseUi(
       initialViewModel = initialViewModel,
       viewModels = produceModels(events),
       onEvent = events::tryEmit,
+      factory = factory,
     )
     return treehouseUi.asZiplineTreehouseUi(
-      factory = DiffProducingEmojiSearchWidgetFactory(json),
+      factory = factory,
       widgetVersion = 0U,
     )
   }
@@ -83,7 +85,6 @@ class RealEmojiSearchPresenter(
       .filter { image ->
         latestSearchTerm.split(" ").all { it in image.label }
       }
-      .take(25)
     return EmojiSearchViewModel(latestSearchTerm, filteredImages)
   }
 }

@@ -65,7 +65,8 @@ class EmojiSearchActivity : ComponentActivity() {
       manifestVerifier = ManifestVerifier.Companion.NO_SIGNATURE_CHECKS,
     )
 
-    return treehouseLauncher.launch(
+    var widgetFactory: AndroidEmojiSearchWidgetFactory<*>? = null
+    val treehouseApp = treehouseLauncher.launch(
       scope = scope,
       spec = EmojiSearchAppSpec(
         manifestUrlString = "http://10.0.2.2:8080/manifest.zipline.json",
@@ -74,12 +75,14 @@ class EmojiSearchActivity : ComponentActivity() {
           override fun widgetFactory(
             json: Json,
           ): DiffConsumingWidget.Factory<*> = DiffConsumingEmojiSearchWidgetFactory<@Composable () -> Unit>(
-            delegate = AndroidEmojiSearchWidgetFactory,
+            delegate = widgetFactory!!,
             json = json,
           )
         },
       ),
     )
+    widgetFactory = AndroidEmojiSearchWidgetFactory(treehouseApp)
+    return treehouseApp
   }
 
   override fun onDestroy() {

@@ -15,6 +15,7 @@ kotlin {
   sourceSets {
     commonMain {
       dependencies {
+        implementation libs.jetbrains.compose.runtime
         implementation libs.kotlinx.serialization.core
         api libs.zipline
         api projects.redwoodTreehouse

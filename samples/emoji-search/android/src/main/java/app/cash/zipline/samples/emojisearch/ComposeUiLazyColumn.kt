@@ -15,28 +15,64 @@
  */
 package app.cash.zipline.samples.emojisearch
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import app.cash.redwood.LayoutModifier
-import app.cash.redwood.widget.compose.ComposeWidgetChildren
+import app.cash.redwood.treehouse.TreehouseApp
+import app.cash.redwood.treehouse.TreehouseView
+import app.cash.redwood.treehouse.ZiplineTreehouseUi
+import app.cash.redwood.treehouse.composeui.TreehouseComposeView
 import example.schema.widget.LazyColumn
+import example.values.LazyListIntervalContent
 
-class ComposeUiLazyColumn : LazyColumn<@Composable () -> Unit> {
+class ComposeUiLazyColumn<T : Any>(
+  treehouseApp: TreehouseApp<T>,
+) : LazyColumn<@Composable () -> Unit> {
+  private var intervals by mutableStateOf<List<LazyListIntervalContent>>(emptyList())
+
   override var layoutModifiers: LayoutModifier = LayoutModifier
 
-  override val children = ComposeWidgetChildren()
+  override fun intervals(intervals: List<LazyListIntervalContent>) {
+    this.intervals = intervals
+  }
 
   override val value = @Composable {
     LazyColumn(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxWidth(),
     ) {
-      items(children.size) { index ->
-        children.render(index)
+      intervals.forEach { interval ->
+        items(interval.count) { index ->
+          Box(Modifier.height(64.dp)) {
+            AndroidView(
+              factory = {
+                TreehouseComposeView(it, treehouseApp)
+              },
+              Modifier.fillMaxSize(),
+              update = {
+                it.setContent(
+                  object : TreehouseView.Content<T> {
+                    override fun get(app: T): ZiplineTreehouseUi {
+                      return interval.itemProvider.get(index)
+                    }
+                  },
+                )
+              },
+            )
+          }
+        }
       }
     }
   }

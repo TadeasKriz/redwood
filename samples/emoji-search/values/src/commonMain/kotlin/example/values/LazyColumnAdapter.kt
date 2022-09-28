@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package app.cash.zipline.samples.emojisearch
+package example.values
 
-import app.cash.zipline.ziplineServiceSerializer
-import example.values.LazyListIntervalContent
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.contextual
+import app.cash.redwood.treehouse.ZiplineTreehouseUi
+import app.cash.zipline.ZiplineService
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 
-val treehouseSerializersModule = SerializersModule {
-  contextual(ziplineServiceSerializer<LazyListIntervalContent.Item>())
+@Serializable
+class LazyListIntervalContent(
+  @Contextual val count: Int,
+  @Contextual val itemProvider: Item,
+) {
+
+  interface Item : ZiplineService {
+    fun get(index: Int): ZiplineTreehouseUi
+  }
 }

@@ -32,10 +32,11 @@ import platform.UIKit.UIView
 class EmojiSearchLauncher(
   private val nsurlSession: NSURLSession,
   private val hostApi: HostApi,
-  private val widgetFactory: EmojiSearchWidgetFactory<UIView>,
 ) {
   private val coroutineScope: CoroutineScope = MainScope()
   private val manifestUrl = "http://localhost:8080/manifest.zipline.json"
+
+  lateinit var widgetFactory: EmojiSearchWidgetFactory<UIView>
 
   public fun createTreehouseApp(): TreehouseApp<EmojiSearchPresenter> {
     val treehouseLauncher = TreehouseLauncher(
